@@ -186,7 +186,7 @@ const AdminDataManager = () => {
 
   return (
     <div className="admin-panel">
-      <h1 className="admin-title">Panel de Administrador</h1>
+      <h1 className="admin-title">Panel de Colegios</h1>
       {message && <p className="admin-message">{message}</p>}
 
       <button
@@ -250,7 +250,7 @@ const AdminDataManager = () => {
                             {curso.nivel} {curso.letra}
                             <button
                               className="admin-button edit-button"
-                              onClick={() => handleEditCurso(curso)}
+                              onClick={() => handleCreateCurso(curso)}
                             >
                               Editar
                             </button>
