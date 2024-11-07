@@ -32,3 +32,6 @@ export { default as Register } from "./Sesion/Register.jsx"
 export { default as ProtectedRoute } from "./Sesion/ProtectedRoute.jsx";
 export { default as NotFound } from './Sesion/NotFound.jsx';
 export { default as LoadingIndicator } from './Sesion/LoadingIndicator.jsx';
+
+//VISTA ADMINISTRADOR
+export {default as Administrador } from './Administrador/Administrador.jsx';

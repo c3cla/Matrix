@@ -8,6 +8,7 @@ import {
   ProtectedRoute,
   MapaEtapas,
   DetalleEtapas,
+  Administrador
 } from "./componentes/indice";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
@@ -28,7 +29,7 @@ function App() {
         <Route
           path="/"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={["student", "teacher", "admin"]}>
               <MostrarNiveles />
             </ProtectedRoute>
           }
@@ -37,7 +38,7 @@ function App() {
         <Route
           path="/nivel/:id_nivel"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={["student", "teacher", "admin"]}>
               <MapaEtapas />
             </ProtectedRoute>
           }
@@ -46,8 +47,17 @@ function App() {
         <Route
           path="/etapa/:id_etapa"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={["student", "teacher", "admin"]}>
               <DetalleEtapas />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/administrador"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <Administrador />
             </ProtectedRoute>
           }
         />
