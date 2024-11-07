@@ -64,7 +64,7 @@ function ProtectedRoute({ children, allowedRoles }) {
   }
 
   if (isAuthorized === false) {
-    return <Navigate to="/404" />;
+    return <Navigate to="/login" />;
   }
 
   return isAuthorized ? children : <Navigate to="/" />;
