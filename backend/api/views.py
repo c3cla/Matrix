@@ -60,7 +60,7 @@ class TerminosPareadosViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = TerminoPareadoFilter
     search_fields = ['uso']
-    #permission_classes = [AllowAny]
+    permission_classes = [AllowAny]
 
 class PreguntaViewSet(viewsets.ModelViewSet):
     queryset = Pregunta.objects.all()

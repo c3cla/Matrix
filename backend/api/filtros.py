@@ -16,6 +16,8 @@ class EtapasFiltro(django_filters.FilterSet):
         fields = ['id_nivel']
 
 class NivelesFiltro(django_filters.FilterSet):
+    id_nivel = django_filters.CharFilter(field_name='id_nivel', lookup_expr='exact')  # Filtro exacto por id_nivel
+
     class Meta:
         model = Niveles
         fields = ['id_nivel']
