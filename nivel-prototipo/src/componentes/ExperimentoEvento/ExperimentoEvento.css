@@ -7,14 +7,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
   position: relative; /* Contexto para posicionamiento absoluto */
+  box-sizing: border-box;
 }
 
 .conceptos-voladores {
   position: relative; /* Necesario para posicionamiento absoluto de hijos */
-  width: 800px;        /* Ajusta según tus necesidades */
-  height: 600px;       /* Ajusta según tus necesidades */
+  width: 100%;
+  max-width: 800px;    /* Ajusta según tus necesidades */
+  height: 60vh;       /* Ajusta según tus necesidades */
   margin-top: 20px;
   border: 1px solid #ddd; /* Opcional: visualización del contenedor */
   overflow: hidden;       /* Evita que los elementos salgan del contenedor */
@@ -34,7 +35,8 @@
   justify-content: center;
   position: absolute; /* Posicionamiento absoluto */
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-  
+  max-width: 100%;   /* Asegura que no se sobrepase el contenedor */
+  max-height: 100%; 
   /* Agregar transiciones para top y left para suavizar el movimiento */
   transition: top 0.05s linear, left 0.05s linear;
   cursor: pointer; /* Cambiar el cursor para indicar que es interactivo */

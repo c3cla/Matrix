@@ -95,6 +95,7 @@ const DetalleEtapas = () => {
     <div className="detalles-etapa-container">
       <h1>{etapa.nombre}</h1>
       <p>{etapa.descripcion}</p>
+      <button onClick={() => navigate('/nivel/' + etapa.id_nivel)}>Volver al Mapa</button>
 
       {/* Renderizar el componente dinámico y pasar la función para completar la etapa */}
       {ComponenteSeleccionado ? (
@@ -104,9 +105,6 @@ const DetalleEtapas = () => {
       ) : (
         <p>No hay un componente asociado a esta etapa.</p>
       )}
-
-      {/* Botón para volver al mapa sin completar la etapa */}
-      <button onClick={() => navigate('/nivel/' + etapa.id_nivel)}>Volver al Mapa</button>
     </div>
   );
 };

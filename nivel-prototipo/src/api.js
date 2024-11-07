@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ACCESS_TOKEN } from "./componentes/Sesion/Constants"
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "./componentes/Sesion/Constants"
 
 
 const api = axios.create({
@@ -48,8 +48,6 @@ api.interceptors.response.use(
       return Promise.reject(error);
   }
 );
-
-
 
 export const obtenerNiveles = async () => {
   try {
