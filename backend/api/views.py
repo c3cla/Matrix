@@ -15,6 +15,16 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import AllowAny
 from .filtros import *
 
+class GetUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response({
+            'username': user.username,
+            'role': user.profile.role
+        })
+
 class AvanceEstudiantesViewSet(viewsets.ModelViewSet):
     queryset = AvanceEstudiantes.objects.all()
     serializer_class = AvanceEstudiantesSerializer
@@ -22,17 +32,37 @@ class AvanceEstudiantesViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         data = request.data
-        estudiante = request.user.profile
+
+        # Asegurarse de que el perfil exista para el usuario autenticado
+        try:
+            estudiante = request.user.profile
+        except Profile.DoesNotExist:
+            return Response({"error": "El perfil del usuario no existe. Asegúrate de que el usuario tenga un perfil asociado."}, status=status.HTTP_400_BAD_REQUEST)
+
         etapa_id = data.get("etapa")
         tiempo = data.get("tiempo")
         logro = data.get("logro")
 
-        avance = AvanceEstudiantes.objects.create(
-            estudiante=estudiante,
-            etapa_id=etapa_id,
-            tiempo=tiempo,
-            logro=logro,
-        )
+        # Log para verificar los datos recibidos
+        print(f"Datos recibidos: Etapa ID: {etapa_id}, Tiempo: {tiempo}, Logro: {logro}")
+
+        # Validar si la etapa existe
+        try:
+            etapa = Etapas.objects.get(pk=etapa_id)
+        except Etapas.DoesNotExist:
+            return Response({"error": "La etapa especificada no existe."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Crear el avance del estudiante
+        try:
+            avance = AvanceEstudiantes.objects.create(
+                estudiante=estudiante,
+                etapa=etapa,
+                tiempo=tiempo,  # Guardar como cadena
+                logro=logro,
+            )
+        except Exception as e:
+            return Response({"error": f"Error al crear el avance: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         serializer = self.get_serializer(avance)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
