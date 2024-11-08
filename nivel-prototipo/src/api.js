@@ -22,30 +22,31 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => {
-      return response;
+    return response;
   },
   async (error) => {
-      const originalRequest = error.config;
-      if (error.response.status === 401 && !originalRequest._retry) {
-          originalRequest._retry = true;
-          const refreshToken = localStorage.getItem(REFRESH_TOKEN);
-          if (refreshToken) {
-              try {
-                  const response = await axios.post(`${api.defaults.baseURL}/api/token/refresh/`, { refresh: refreshToken });
-                  localStorage.setItem(ACCESS_TOKEN, response.data.access);
-                  axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
-                  return api(originalRequest);
-              } catch (err) {
-                  console.error("Error actualizando el token:", err);
-                  history.pushState(null, null, "/logout");
-                  window.location.reload();
-              }
-          } else {
-              history.pushState(null, null, "/logout");
-              window.location.reload();
-          }
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const refreshToken = localStorage.getItem(REFRESH_TOKEN);
+      if (refreshToken) {
+        try {
+          const response = await axios.post(`${api.defaults.baseURL}/api/token/refresh/`, { refresh: refreshToken });
+          localStorage.setItem(ACCESS_TOKEN, response.data.access);
+          api.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
+          originalRequest.headers['Authorization'] = `Bearer ${response.data.access}`;
+          return api(originalRequest);
+        } catch (err) {
+          console.error("Error actualizando el token:", err);
+          history.pushState(null, null, "/logout");
+          window.location.reload();
+        }
+      } else {
+        history.pushState(null, null, "/logout");
+        window.location.reload();
       }
-      return Promise.reject(error);
+    }
+    return Promise.reject(error);
   }
 );
 
@@ -86,7 +87,7 @@ export const obtenerTerminosPareados = async (uso = "experimento") => {
 
 export const registrarAvanceEstudiante = async (etapaId, tiempo, logro) => {
   try {
-      const response = await api.post("/avance_estudiantes/", {
+      const response = await api.post("/api/avance_estudiantes/", {
           etapa: etapaId,
           tiempo: tiempo,
           logro: logro,

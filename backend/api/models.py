@@ -112,14 +112,13 @@ class TerminosPareados(models.Model):
         return self.concepto
 
 
-#Registro uso
 class AvanceEstudiantes(models.Model):
     id = models.BigAutoField(primary_key=True)
-    estudiante = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='tiempos')
+    estudiante = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tiempos_estudiantes')
     etapa = models.ForeignKey(Etapas, on_delete=models.CASCADE, related_name='tiempos')
-    tiempo = models.DurationField(help_text="Tiempo invertido en la etapa")
+    tiempo = models.CharField(max_length=8, help_text="Tiempo invertido en la etapa")
     fecha_completada = models.DateTimeField(auto_now_add=True)
     logro = models.PositiveIntegerField(help_text="Porcentaje de logro alcanzado en la etapa")
 
     def __str__(self):
-        return f"{self.estudiante.user.username} - {self.etapa.nombre} - {self.tiempo} - {self.logro}%"
+        return f"{self.estudiante.username} - {self.etapa.nombre} - {self.tiempo} - {self.logro}%"
