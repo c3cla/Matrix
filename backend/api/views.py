@@ -33,18 +33,12 @@ class AvanceEstudiantesViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         data = request.data
 
-        # Asegurarse de que el perfil exista para el usuario autenticado
-        try:
-            estudiante = request.user.profile
-        except Profile.DoesNotExist:
-            return Response({"error": "El perfil del usuario no existe. Asegúrate de que el usuario tenga un perfil asociado."}, status=status.HTTP_400_BAD_REQUEST)
+        # Obtener el usuario autenticado directamente
+        estudiante = request.user
 
         etapa_id = data.get("etapa")
         tiempo = data.get("tiempo")
         logro = data.get("logro")
-
-        # Log para verificar los datos recibidos
-        print(f"Datos recibidos: Etapa ID: {etapa_id}, Tiempo: {tiempo}, Logro: {logro}")
 
         # Validar si la etapa existe
         try:
@@ -55,9 +49,9 @@ class AvanceEstudiantesViewSet(viewsets.ModelViewSet):
         # Crear el avance del estudiante
         try:
             avance = AvanceEstudiantes.objects.create(
-                estudiante=estudiante,
+                estudiante=estudiante,  # Cambiar Profile a User
                 etapa=etapa,
-                tiempo=tiempo,  # Guardar como cadena
+                tiempo=tiempo,
                 logro=logro,
             )
         except Exception as e:

@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from .models import Colegio, CursoColegio, Profile
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-#Registros por estudiantes
 class AvanceEstudiantesSerializer(serializers.ModelSerializer):
     class Meta:
         model = AvanceEstudiantes

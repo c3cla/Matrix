@@ -114,7 +114,7 @@ class TerminosPareados(models.Model):
 
 class AvanceEstudiantes(models.Model):
     id = models.BigAutoField(primary_key=True)
-    estudiante = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tiempos_estudiantes')
+    estudiante = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tiempos')
     etapa = models.ForeignKey(Etapas, on_delete=models.CASCADE, related_name='tiempos')
     tiempo = models.CharField(max_length=8, help_text="Tiempo invertido en la etapa")
     fecha_completada = models.DateTimeField(auto_now_add=True)
