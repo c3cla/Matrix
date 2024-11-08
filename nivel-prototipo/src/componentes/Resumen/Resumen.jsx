@@ -4,7 +4,7 @@ import ResumenAnimacion from "../assets/wow.gif";
 import RepetirIcono from "../assets/repetir.png";
 import ContinuarIcono from "../assets/continuar.png";
 import PropTypes from "prop-types";
-import api from "../../api"; 
+import api from "../../api";
 
 export const Resumen = ({
   resultados,
@@ -35,9 +35,12 @@ export const Resumen = ({
   useEffect(() => {
     const registrarAvance = async () => {
       try {
-        await api.post("/avance-estudiantes/", {
-          etapa: 1, // Aquí debes pasar el ID de la etapa actual
-          tiempo: tiempoTotal,
+        // Convertir solo antes de enviarlo
+        const tiempoFormateado = formatearTiempo(tiempoTotal);
+
+        await api.post("/api/avance_estudiantes/", {
+          etapa: 1,
+          tiempo: tiempoFormateado, // Enviar como 'hh:mm:ss'
           logro: porcentajeLogro,
         });
         console.log("Avance registrado exitosamente.");
@@ -128,10 +131,10 @@ Resumen.propTypes = {
   resultados: PropTypes.arrayOf(
     PropTypes.shape({
       correcta: PropTypes.bool.isRequired,
-      tiempo: PropTypes.number.isRequired,
+      tiempo: PropTypes.string.isRequired, // Cambiar de 'number' a 'string'
     })
   ).isRequired,
-  tiempoTotal: PropTypes.number.isRequired,
+  tiempoTotal: PropTypes.string.isRequired, // Cambiar de 'number' a 'string'
   totalPreguntas: PropTypes.number.isRequired,
   reiniciarQuiz: PropTypes.func.isRequired,
   continuarQuiz: PropTypes.func.isRequired,
