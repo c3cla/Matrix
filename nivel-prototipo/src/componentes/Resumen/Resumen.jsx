@@ -35,11 +35,12 @@ export const Resumen = ({
   useEffect(() => {
     const registrarAvance = async () => {
       try {
-        // Convertir solo antes de enviarlo
+
+        const etapaId = window.location.pathname.split("/")[2];
         const tiempoFormateado = formatearTiempo(tiempoTotal);
 
         await api.post("/api/avance_estudiantes/", {
-          etapa: 1,
+          etapa: etapaId,
           tiempo: tiempoFormateado, // Enviar como 'hh:mm:ss'
           logro: porcentajeLogro,
         });
